@@ -1,73 +1,239 @@
-# Welcome to your Lovable project
 
-## Project info
+🛒 Shopping Cart Application
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+ABCDE Ventures – Full Stack Assignment
 
-## How can I edit this code?
+📌 Overview
 
-There are several ways of editing your application.
+This project is a basic e-commerce web application that demonstrates the complete lifecycle of a shopping flow:
 
-**Use Lovable**
+User Signup → Login (Single Device) → Add Items to Cart → Place Order → View Orders
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+The application consists of:
 
-Changes made via Lovable will be committed automatically to this repo.
+A Node.js + Express backend with MongoDB
 
-**Use your preferred IDE**
+A React (Vite) frontend
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+JWT-based authentication with single-device session enforcement
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The goal is to keep the system simple, clean, and easy to understand while following real-world backend and frontend practices.
 
-Follow these steps:
+🎯 Key Features
+✅ Authentication & Session Management
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+User signup and login using JWT
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Single-device login restriction
 
-# Step 3: Install the necessary dependencies.
-npm i
+A user can only be logged in on one device at a time
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Token is stored in the database
+
+Login is blocked if an active token already exists
+
+Logout clears the token and allows re-login
+
+✅ Shopping Flow
+
+View all available items
+
+Add items to a cart (one cart per user)
+
+Convert cart into an order
+
+View cart items and order history
+
+✅ Secure API Design
+
+Protected routes using authentication middleware
+
+Token validation against database
+
+Clear separation of concerns (models, routes, middleware)
+
+🧠 Single-Device Login Logic (Important)
+
+To ensure a user is logged in on only one device at a time, the following logic is used:
+
+On successful login, a JWT token is generated.
+
+The token is stored in the user’s database record.
+
+If a login request is made and a token already exists:
+
+Login is denied
+
+Frontend shows:
+“You cannot login on another device.”
+
+On logout:
+
+Token is removed from the database
+
+User can log in again from any device
+
+🏗️ Tech Stack
+Backend
+
+Node.js
+
+Express.js
+
+MongoDB
+
+Mongoose
+
+JWT (jsonwebtoken)
+
+bcryptjs
+
+dotenv
+
+cors
+
+Frontend
+
+React (Vite)
+
+Tailwind CSS
+
+Axios
+
+Lucide React (icons)
+
+📂 Project Structure
+shopping-cart-app
+├── backend
+│   ├── models
+│   │   ├── User.js
+│   │   ├── Item.js
+│   │   ├── Cart.js
+│   │   └── Order.js
+│   ├── middleware
+│   │   └── auth.js
+│   ├── routes
+│   │   ├── userRoutes.js
+│   │   ├── itemRoutes.js
+│   │   ├── cartRoutes.js
+│   │   └── orderRoutes.js
+│   ├── server.js
+│   └── .env
+│
+├── frontend
+│   ├── src
+│   │   ├── components
+│   │   │   ├── Login.jsx
+│   │   │   ├── ItemList.jsx
+│   │   │   └── Navbar.jsx
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── tailwind.config.js
+│
+└── package.json
+
+🔗 API Endpoints
+User APIs
+Method	Endpoint	Description
+POST	/users	Create new user
+GET	/users	List all users
+POST	/users/login	Login user
+POST	/users/logout	Logout user
+Item APIs
+Method	Endpoint	Description
+POST	/items	Create an item
+GET	/items	List all items
+Cart APIs (Protected)
+Method	Endpoint	Description
+POST	/carts	Add item to cart
+GET	/carts	List all carts
+
+Token must be sent in the Authorization header.
+
+Order APIs (Protected)
+Method	Endpoint	Description
+POST	/orders	Convert cart to order
+GET	/orders	List all orders
+🖥️ Frontend Flow
+1️⃣ Login Screen
+
+User enters username & password
+
+On failure → window.alert("Invalid username/password")
+
+If logged in elsewhere → alert shown
+
+2️⃣ Item List Screen
+
+Displays all items
+
+Clicking an item adds it to the cart
+
+3️⃣ Action Buttons
+
+Checkout → Places order
+
+Cart → Shows cart items in alert/toast
+
+Order History → Shows order IDs in alert/toast
+
+4️⃣ Checkout
+
+Cart converts to order
+
+Cart is cleared
+
+Success message shown
+
+User stays on Item List screen
+
+⚙️ Environment Variables
+
+Create a .env file inside /backend:
+
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+
+🚀 How to Run the Project
+Backend
+cd backend
+npm install
+npm start
+
+Frontend
+cd frontend
+npm install
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+🧪 Testing Notes
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Manual testing using Postman for APIs
 
-**Use GitHub Codespaces**
+UI tested using browser interactions
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Authentication and single-device logic verified
 
-## What technologies are used for this project?
+🧩 Assumptions Made
 
-This project is built with:
+No inventory or stock management
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Each user has only one cart
 
-## How can I deploy this project?
+Cart is cleared after order placement
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+UI feedback shown using alerts/toasts for simplicity
 
-## Can I connect a custom domain to my Lovable project?
+✅ Conclusion
 
-Yes, you can!
+This project demonstrates:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Clean REST API design
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Secure authentication
+
+Real-world session control logic
+
+Simple yet effective frontend integration
+
+It serves as a strong foundation for a scalable e-commerce system
